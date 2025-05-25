@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+html,
+body {
+  @apply bg-white dark:bg-gray-950;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+}
+
+.pending {
+  @apply text-blue-500 dark:text-blue-300;
+}
+.pending::before {
+  @apply text-blue-400 dark:text-blue-200;
+}
+.pending::after {
+  @apply text-blue-300 dark:text-blue-100;
+}
+
+.active {
+  @apply text-blue-600 dark:text-blue-300;
+}
+.active::before {
+  @apply text-blue-500 dark:text-blue-200;
+}
+.active::after {
+  @apply text-blue-400 dark:text-blue-100;
+}
+
+.completed {
+  @apply text-blue-700 dark:text-blue-400;
+}
+
+.CircularProgressbar-text {
+  font-weight: bold !important;
+}
