@@ -46,9 +46,6 @@ const MovieDetailPage = () => {
     };
     fetchData();
   }, [type, id]);
-  console.log(details);
-  console.log(credits);
-  console.log(countries);
 
   if (!details || !credits) return <div className="text-white p-4">Loading...</div>;
 

@@ -18,10 +18,10 @@ interface SidebarProps {
     pageReset: React.Dispatch<React.SetStateAction<number>>;
   }
 export const Sidebar = ({setDatavalue, details, pageReset}:SidebarProps) => {
-    const [selectedType, setSelectedType] = useState("");
-    const [sortOption, setSortOption] = useState("");
-    const [year, setYear] = useState("");
-    const [rating, setRating] = useState("");
+    // const [selectedType, setSelectedType] = useState("");
+    // const [sortOption, setSortOption] = useState("");
+    // const [year, setYear] = useState("");
+    // const [rating, setRating] = useState("");
 
     const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
     const [pending, setPending] = useState({

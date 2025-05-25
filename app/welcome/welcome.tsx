@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { Card } from "~/src/components/Card";
 import { Sidebar } from "~/src/components/Sidebar";
 
-export function Welcome() {  
-    const options = {
+export function Welcome() {
+  const options = {
     method: 'GET',
     headers: {
       accept: 'application/json',
@@ -26,6 +26,8 @@ export function Welcome() {
     total_pages: number;
     total_results: number;
   }
+
+
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -41,15 +43,40 @@ export function Welcome() {
   });
 
   async function fetchMovies(type: string) {
+    const rawSort = filter.sortBy;
+    let mappedSort = "";
+
+    if (rawSort) {
+      if (type === "movie") {
+        mappedSort = {
+          az: "original_title.asc",
+          za: "original_title.desc",
+          latest: "primary_release_date.desc",
+          oldest: "primary_release_date.asc"
+        }[rawSort] || ""; 
+      } else if (type === "tv") {
+        mappedSort = {
+          az: "name.asc",
+          za: "name.desc",
+          latest: "first_air_date.desc",
+          oldest: "first_air_date.asc"
+        }[rawSort] || "";
+      }
+    }
     setLoading(true);
     try {
       const queryParams = new URLSearchParams({
         language: "en-US",
         page: page.toString(),
-        ...(filter.sortBy && { sort_by: filter.sortBy }),
-        ...(filter.release_date && { primary_release_year: filter.release_date }),
+        ...(mappedSort && { sort_by: mappedSort }),
         ...(filter.vote_average && { "vote_average.gte": filter.vote_average }),
+        ...(filter.release_date &&
+          (type === "movie"
+            ? { primary_release_year: filter.release_date }
+            : { first_air_date_year: filter.release_date })),
       });
+      console.log("Final API URL:", queryParams.toString());
+
       const res = await axios.get(
         `https://api.themoviedb.org/3/${type}?${queryParams.toString()}`,
         options
@@ -77,10 +104,10 @@ export function Welcome() {
     let endpoint = "";
     // Determine the endpoint based on the filter type
     if (filter.type === "tv") {
-      endpoint = "discover/tv";      
+      endpoint = "discover/tv";
     } else if (filter.type === "movie") {
-      endpoint = "discover/movie";      
-    } else {      
+      endpoint = "discover/movie";
+    } else {
       endpoint = "trending/all/day";
     }
     fetchMovies(endpoint);
@@ -91,11 +118,11 @@ export function Welcome() {
     if (filter.type === undefined || filter.type === null) return;
     let endpoint = "";
     if (filter.type === "tv") {
-      endpoint = "discover/tv";      
+      endpoint = "discover/tv";
     } else if (filter.type === "movie") {
-      endpoint = "discover/movie";      
+      endpoint = "discover/movie";
     } else {
-      endpoint = "trending/all/day";      
+      endpoint = "trending/all/day";
     }
     fetchMovies(endpoint);
   }, [page]);

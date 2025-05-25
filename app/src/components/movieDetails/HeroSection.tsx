@@ -110,7 +110,7 @@ const HeroSection: React.FC<HeroProps> = ({
           <p className="text-md">
             {certification && (
               <>
-                <span className="bg-gray-500 px-1 py-2 rounded-md text-sm">
+                <span className="border-white border-1 px-1 py-0.5 text-sm shadow-lg mx-1 text-gray-300 font-semibold">
                   {certification}
                 </span>
               </>

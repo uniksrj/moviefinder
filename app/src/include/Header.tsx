@@ -3,7 +3,12 @@ import { NavLink } from "react-router";
 const Header = () => {
   return (
     <header className="bg-white shadow-md p-4 flex justify-between items-center">
-      <div className="text-2xl font-bold text-blue-700">BizSolutions</div>
+      <div className="text-2xl font-bold text-blue-700">
+      <NavLink
+          to="/"                   
+        >SearchtoFIND
+        </NavLink>  
+        </div>
       <nav className="space-x-6">        
         <NavLink
           to="/"
