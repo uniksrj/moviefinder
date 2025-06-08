@@ -34,7 +34,13 @@ export function Welcome() {
   const [error, setError] = useState<Error | null>(null);
   const loaderRef = useRef(null);
 
-  const [filter, setFilter] = useState({
+  const [filter, setFilter] = useState<{
+    type: string;
+    sortBy: string;
+    release_date: string;
+    vote_average: string;
+    genere: string;
+  }>({
     type: "",
     sortBy: "",
     release_date: "",
@@ -43,18 +49,18 @@ export function Welcome() {
   });
 
   async function fetchMovies(type: string) {
-    const rawSort = filter.sortBy;
+    const rawSort = filter.sortBy;    
     let mappedSort = "";
 
     if (rawSort) {
-      if (type === "movie") {
+      if (filter.type === "movie") {
         mappedSort = {
           az: "original_title.asc",
           za: "original_title.desc",
           latest: "primary_release_date.desc",
           oldest: "primary_release_date.asc"
         }[rawSort] || ""; 
-      } else if (type === "tv") {
+      } else if (filter.type === "tv") {
         mappedSort = {
           az: "name.asc",
           za: "name.desc",
@@ -63,6 +69,9 @@ export function Welcome() {
         }[rawSort] || "";
       }
     }
+    console.log("filter data here", filter);
+    console.log("Type of here", typeof filter.genere);
+    
     setLoading(true);
     try {
       const queryParams = new URLSearchParams({
@@ -70,13 +79,16 @@ export function Welcome() {
         page: page.toString(),
         ...(mappedSort && { sort_by: mappedSort }),
         ...(filter.vote_average && { "vote_average.gte": filter.vote_average }),
+        ...(filter.genere && { with_genres: filter.genere }),
         ...(filter.release_date &&
-          (type === "movie"
+          (filter.type === "movie"
             ? { primary_release_year: filter.release_date }
             : { first_air_date_year: filter.release_date })),
       });
-      console.log("Final API URL:", queryParams.toString());
 
+      console.log(`https://api.themoviedb.org/3/${type}?${queryParams.toString()}`);
+      
+        
       const res = await axios.get(
         `https://api.themoviedb.org/3/${type}?${queryParams.toString()}`,
         options

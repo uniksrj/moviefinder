@@ -80,11 +80,11 @@ const HeroSection: React.FC<HeroProps> = ({
   }, [releaseDate]);
 
   function getCertificationAndReleaseDate(countryCode: string) {
-    const actualReleaseData = Array.isArray(releaseDate)
-      ? releaseDate[0] || []
-      : Object.values(releaseDate || {})[0] || [];
+    const actualReleaseDataArray = Array.isArray(releaseDate)
+      ? releaseDate
+      : Object.values(releaseDate || {});
 
-    const countryData = actualReleaseData.find(
+    const countryData = (actualReleaseDataArray as any[]).find(
       (item: any) => item?.iso_3166_1 === countryCode
     );
 
@@ -105,7 +105,7 @@ const HeroSection: React.FC<HeroProps> = ({
 
         <div className="flex flex-col space-y-4 w-full">
           <h1 className="text-4xl font-bold">
-            {title} ({year})
+            {title} {year && `(${year})`}
           </h1>          
           <p className="text-md">
             {certification && (

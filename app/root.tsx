@@ -7,13 +7,18 @@ import {
   ScrollRestoration,
 } from "react-router";
 
-import type { Route } from "./+types/root";
+// Removed import of missing './+types/root'
 import "./app.css";
 import Header from "./src/include/Header";
 import Footer from "./src/include/Footer";
-// import { Notification } from "./src/components/Notification";
+import { Notification } from "./src/components/Notification";
 
-export const links: Route.LinksFunction = () => [
+// Define LinksFunction type locally
+type LinksFunction = () => Array<
+  | { rel: string; href: string; crossOrigin?: string }
+>;
+
+export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -38,7 +43,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         {children}
         <ScrollRestoration />
-        {/* <Notification /> */}
+        <Notification />
         <Scripts />
       </body>
     </html>
@@ -57,7 +62,10 @@ export default function App() {
   );
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+// Define ErrorBoundaryProps type locally
+type ErrorBoundaryProps = { error: unknown };
+
+export function ErrorBoundary({ error }: ErrorBoundaryProps) {
   let message = "Oops!";
   let details = "An unexpected error occurred.";
   let stack: string | undefined;

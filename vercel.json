@@ -3,6 +3,10 @@
   "outputDirectory": "build/client",
   "routes": [
     {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "build/server/index.js"
     }

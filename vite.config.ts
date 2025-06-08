@@ -5,9 +5,14 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 
 export default defineConfig({
+  root: "./app",
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths(),cssInjectedByJsPlugin()],
    build: {
-    sourcemap: true, 
-    ssr: false 
-  }
+    outDir: '../build/client',
+    manifest: true,
+    rollupOptions: {
+      input: '/src/entry.client.tsx' 
+    }
+  },
+  // publicDir : path.resolve(__dirname, 'app'),  
 });
