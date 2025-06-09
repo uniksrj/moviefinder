@@ -1,18 +1,11 @@
-import { reactRouter } from "@react-router/dev/vite";
+import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
+import { reactRouter } from "@react-router/dev/vite";
 
 export default defineConfig({
   root: "./app",
-  plugins: [tailwindcss(), reactRouter(), tsconfigPaths(),cssInjectedByJsPlugin()],
-   build: {
-    outDir: '../build/client',
-    manifest: true,
-    rollupOptions: {
-      input: '/src/entry.client.tsx' 
-    }
-  },
+  plugins: [tailwindcss(), react(), tsconfigPaths(), reactRouter()],   
   // publicDir : path.resolve(__dirname, 'app'),  
 });
