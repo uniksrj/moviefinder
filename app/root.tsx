@@ -1,3 +1,4 @@
+import "./app.css";
 import {
   isRouteErrorResponse,
   Links,
@@ -7,8 +8,6 @@ import {
   ScrollRestoration,
 } from "react-router";
 
-// Removed import of missing './+types/root'
-import "./app.css";
 import Header from "./src/include/Header";
 import Footer from "./src/include/Footer";
 import { Notification } from "./src/components/Notification";
