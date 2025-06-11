@@ -15,7 +15,7 @@ interface HeroProps {
   overview: string;
   trailerUrl: string | null;
   crew: { name: string; job: string }[];
-  countries: { timezones: string[]; code: string; name: string }[];
+  countries: { timezones: string[]; cca2: string; name: string }[];
 }
 
 const HeroSection: React.FC<HeroProps> = ({

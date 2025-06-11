@@ -28,12 +28,16 @@ const MovieDetailPage = () => {
       append_to_response: 'release_dates,videos,content_ratings'
     }
   };
-    useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       const [detailRes, creditRes, countryList] = await Promise.all([
         axios.get(`https://api.themoviedb.org/3/${type}/${id}`, options),
         axios.get(`https://api.themoviedb.org/3/${type}/${id}/credits`, options),
-        axios.get(`https://restcountries.com/v3.1/all`)
+        axios.get(`https://restcountries.com/v3.1/all`, {
+          params: {
+            fields: "name,flags,cca2,timezones,cca3"
+          }
+          },)
       ]);
       const filteredCountries = countryList.data.map((country: { name?: { common?: string }; cca2?: string; timezones?: string[] }) => ({
         name: country.name?.common || 'Unknown',

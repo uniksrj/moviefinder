@@ -30,14 +30,14 @@
     return Intl.DateTimeFormat().resolvedOptions().timeZone;
   }
 
-  export function getCountryCodeFromTimezone(timezone: string, countries: { timezones: string[]; code: string; name: string }[]): string | null {
+  export function getCountryCodeFromTimezone(timezone: string, countries: { timezones: string[]; cca2: string; name: string }[]): string | null {
     if (!timezone) return null;
-    const countriesList = Object.values(countries) as { timezones: string[]; code: string; name: string }[];
+    const countriesList = Object.values(countries) as { timezones: string[]; cca2: string; name: string }[];
     const utcOffset = getCurrentUTCOffset(timezone);
     if (!utcOffset) return null;
     for (const country of countriesList) {
       if (country.timezones.includes(utcOffset)) {
-        return country.code;
+        return country.cca2;
       }
     }
     return null;
