@@ -33,11 +33,7 @@ const MovieDetailPage = () => {
       const [detailRes, creditRes, countryList] = await Promise.all([
         axios.get(`https://api.themoviedb.org/3/${type}/${id}`, options),
         axios.get(`https://api.themoviedb.org/3/${type}/${id}/credits`, options),
-        axios.get(`https://restcountries.com/v3.1/all`, {
-          params: {
-            fields: "name,flags,cca2,timezones,cca3"
-          }
-          },)
+        axios.get(`https://restcountries.com/v3.1/all?fields=name,flags,cca2,cca3,timezones`)
       ]);
       const filteredCountries = countryList.data.map((country: { name?: { common?: string }; cca2?: string; timezones?: string[] }) => ({
         name: country.name?.common || 'Unknown',
