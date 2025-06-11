@@ -69,8 +69,6 @@ export function Welcome() {
         }[rawSort] || "";
       }
     }
-    console.log("filter data here", filter);
-    console.log("Type of here", typeof filter.genere);
     
     setLoading(true);
     try {
@@ -84,10 +82,7 @@ export function Welcome() {
           (filter.type === "movie"
             ? { primary_release_year: filter.release_date }
             : { first_air_date_year: filter.release_date })),
-      });
-
-      console.log(`https://api.themoviedb.org/3/${type}?${queryParams.toString()}`);
-      
+      });      
         
       const res = await axios.get(
         `https://api.themoviedb.org/3/${type}?${queryParams.toString()}`,
@@ -185,9 +180,9 @@ export function Welcome() {
                 </li>
               ))}
             </ul>
-            <div ref={loaderRef} className="h-10 col-span-full flex justify-center items-center">
+            {/* <div ref={loaderRef} className="h-10 col-span-full flex justify-center items-center">
               {loading && <span className="text-gray-300">Loading more...</span>}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
