@@ -76,8 +76,8 @@ const MovieDetailPage = () => {
           />
           {/* <WatchButtons trailerUrl={trailerUrl} />  */}
 
-          <div className="flex flex-col items-center lg:flex-row gap-8 p-6">
-            <div className="lg:w-3/4">
+          <div className="flex flex-col lg:flex-row gap-8 p-6 items-start">
+            <div className="lg:w-3/4 w-full">
               <CastSlider cast={credits.cast} />
             </div>
             <MovieInfoSidebar

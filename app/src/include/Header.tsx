@@ -3,30 +3,33 @@ import { NavLink } from "react-router";
 import AuthModal from "../components/auth_modal/AuthModal";
 
 const Header = () => {
-    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
   return (
     <header className="bg-white shadow-md">
-      {/* Top bar with login/signup */}
-      <div className="flex justify-end items-center bg-gray-100 px-4 py-2 space-x-4">
-        <button 
-          className="text-sm text-gray-600 hover:text-blue-600 font-medium cursor-pointer"
-          onClick={() => setIsAuthModalOpen(true)}  >
+      {/* Top bar */}
+      <div className="flex justify-end items-center bg-gray-100 px-4 py-2 space-x-4 text-sm">
+        <button
+          className="text-gray-600 hover:text-blue-600 font-medium"
+          onClick={() => setIsAuthModalOpen(true)}
+        >
           Login
         </button>
         <button
           onClick={() => setIsAuthModalOpen(true)}
-          className="text-sm bg-blue-600 text-white px-3 py-1 cursor-pointer rounded hover:bg-blue-700 font-medium">
+          className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 font-medium"
+        >
           Sign Up
         </button>
       </div>
-      
+
       {/* Main header content */}
-      <div className="p-4 flex justify-between items-center">
+      <div className="p-4 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
         <div className="text-2xl font-bold text-blue-700">
           <NavLink to="/">SearchtoFIND</NavLink>
         </div>
-        
-        <nav className="space-x-6">
+
+        <nav className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm md:text-base">
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -72,9 +75,11 @@ const Header = () => {
           </a>
         </nav>
       </div>
+
       <AuthModal
         isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)} />
+        onClose={() => setIsAuthModalOpen(false)}
+      />
     </header>
   );
 };
