@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialLoginMode: boolean;
 }
 
-const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
+const AuthModal = ({ isOpen, onClose, initialLoginMode = true }: AuthModalProps) => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     email: '',
@@ -14,6 +15,10 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
     name: ''
   });
   const [errors, setErrors] = useState<{ email?: string; password?: string; name?: string }>({});
+
+   useEffect(() => {
+    setIsLogin(initialLoginMode);
+  }, [initialLoginMode]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -39,6 +44,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
     if (validate()) {
       // Handle authentication logic here
       console.log(isLogin ? 'Logging in' : 'Signing up', formData);
+       localStorage.setItem("user", JSON.stringify({ name: formData.name, email: formData.email }));
       onClose();
     }
   };
