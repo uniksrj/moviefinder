@@ -19,41 +19,43 @@ export const Card = ({ data }: { data: CardData; }) => {
     month: "long",
     day: "numeric",
   };
+const getRatingColor = (rating: string | number) => {
+  const numericRating = typeof rating === "number" ? rating : parseFloat(rating);
+  if (numericRating >= 7.5) return 'bg-green-100 text-green-700';
+  if (numericRating >= 5.0) return 'bg-orange-100 text-orange-700';
+  return 'bg-red-100 text-red-700';
+};
   return (
-    <div className="h-full flex flex-col rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 bg-white border border-gray-100">
-    <div className="flex flex-col sm:flex-row h-full">
-      {/* Poster Image */}
-      <img
-        className="w-full sm:w-32 h-48 sm:h-48 object-cover"
-        src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
-        alt={data.title}
-      />
+  <Link 
+  to={`/details/${data.media_type}/${data.id}`} 
+  className="group relative w-64 rounded-xl transition-transform duration-300 hover:scale-105"
+>
+  <div className="h-full flex flex-col rounded-xl overflow-hidden backdrop-blur-sm bg-white transition-all duration-300 border border-gray-100 hover:backdrop-blur-lg hover:shadow-[0_0_20px_rgb(255,0,255),0_0_10px_rgb(0,255,255),0_0_15px_rgb(0,255,0)]">
+    
+    {/* Poster Image */}
+    <img
+      className="w-full h-84 object-cover"
+      src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+      alt={data.title}
+    />
 
-      {/* Content Area */}
-      <div className="p-5 flex-1 flex flex-col">
-        {/* Movie Title */}
-        <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors line-clamp-2">
-          {data.title ??  data.name}
-        </h3>
-
-        {/* Release Date */}
-        <p className="text-gray-600 text-sm mt-1">{date.toLocaleDateString("en-US",options)}</p>
-
-        {/* Rating Badge */}
-        <div className="mt-3 flex flex-wrap gap-2">
-          <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-            Rating: {data.vote_average.toFixed(1)}
-          </span>
-        </div>
-
-        {/* View Button (Push to Bottom) */}
-        <div className="mt-auto">
-          <button className="mt-4 px-4 py-2 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 transition-colors text-sm font-medium cursor-pointer">
-          <Link to={`/details/${data.media_type}/${data.id}`}>View Details</Link>
-          </button>
-        </div>
+    {/* Content */}
+    <div className="p-5 flex-1 flex flex-col">
+      <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors line-clamp-2">
+        {data.title ?? data.name}
+      </h3>
+      <p className="text-gray-600 text-sm mt-1">
+        {date.toLocaleDateString("en-US", options)}
+      </p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        <span className={`px-2 py-1 text-xs rounded-full ${getRatingColor(data.vote_average)}`}>
+          Rating: {data.vote_average.toFixed(1)}
+        </span>
       </div>
     </div>
+
   </div>
+</Link>
+
   );
 };

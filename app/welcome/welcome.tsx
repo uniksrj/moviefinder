@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { Card } from "~/src/components/Card";
 import { Sidebar } from "~/src/components/Sidebar";
+import { ClipLoader } from "react-spinners";
 
 export function Welcome() {
   const options = {
@@ -49,7 +50,7 @@ export function Welcome() {
   });
 
   async function fetchMovies(type: string) {
-    const rawSort = filter.sortBy;    
+    const rawSort = filter.sortBy;
     let mappedSort = "";
 
     if (rawSort) {
@@ -59,7 +60,7 @@ export function Welcome() {
           za: "original_title.desc",
           latest: "primary_release_date.desc",
           oldest: "primary_release_date.asc"
-        }[rawSort] || ""; 
+        }[rawSort] || "";
       } else if (filter.type === "tv") {
         mappedSort = {
           az: "name.asc",
@@ -69,7 +70,7 @@ export function Welcome() {
         }[rawSort] || "";
       }
     }
-    
+
     setLoading(true);
     try {
       const queryParams = new URLSearchParams({
@@ -82,8 +83,8 @@ export function Welcome() {
           (filter.type === "movie"
             ? { primary_release_year: filter.release_date }
             : { first_air_date_year: filter.release_date })),
-      });      
-        
+      });
+
       const res = await axios.get(
         `https://api.themoviedb.org/3/${type}?${queryParams.toString()}`,
         options
@@ -164,11 +165,11 @@ export function Welcome() {
           {/* Main content */}
           <div className="flex-1 p-6">
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {loading && (
+              {/* {loading && (
                 <li className="col-span-full text-center py-12">
                   <p className="text-lg text-gray-300">Loading...</p>
                 </li>
-              )}
+              )} */}
               {error && (
                 <li className="col-span-full bg-red-50 border-l-4 border-red-500 p-4">
                   <p className="text-red-700 font-medium">Error: {error.message}</p>
@@ -180,9 +181,14 @@ export function Welcome() {
                 </li>
               ))}
             </ul>
-            {/* <div ref={loaderRef} className="h-10 col-span-full flex justify-center items-center">
-              {loading && <span className="text-gray-300">Loading more...</span>}
-            </div> */}
+            <div ref={loaderRef} className="h-10 col-span-full flex justify-center items-center">
+              {loading && (
+                <div className="flex items-center space-x-2">
+                  <ClipLoader size={20} color="#D1D5DB" />
+                  <span className="text-gray-300">Loading more...</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

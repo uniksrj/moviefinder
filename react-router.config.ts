@@ -10,6 +10,9 @@ export default {
   // Configure app directory
   appDirectory: "app",
 
+  // Let React Router handle Fast Refresh
+  fastRefresh: true,
+
   // Future flags for React Router v7
   future: {
     v3_fetcherPersist: true,
@@ -19,9 +22,8 @@ export default {
     v3_lazyRouteDiscovery: true,
   },
 
-  // Development settings to help with the RefreshRuntime issue
+  // Development settings
   dev: {
-    // Disable overlay errors that might conflict with Fast Refresh
     overlay: false,
   },
 
@@ -31,13 +33,17 @@ export default {
       port: 3000,
       open: true,
       hmr: {
-        overlay: false, // Disable HMR overlay to prevent conflicts
+        overlay: false,
       },
     },
-    optimizeDeps: {
-      force: true, // Force re-optimization of dependencies
+    // React Router will handle React refresh
+    plugins: {
+      // This is correct - keep it
+      react: false,
     },
-    // Clear cache settings
+    optimizeDeps: {
+      force: true,
+    },
     cacheDir: ".vite-cache",
   },
 } satisfies Config

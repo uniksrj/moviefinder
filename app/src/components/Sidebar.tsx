@@ -62,7 +62,7 @@ export const Sidebar = ({ setDatavalue, details, pageReset }: SidebarProps) => {
         }));
     };
     return (
-        <div className="flex flex-col border-r border-gray-700 pr-4 w-64 h-auto bg-gray-800 text-white overflow-y-auto">
+        <div className="sm:flex flex-col border-r border-gray-700 pr-4 w-64 h-auto bg-gray-800 text-white overflow-y-auto hidden">
             <div className="flex items-center justify-center h-16 bg-gray-900">
                 <h1 className="text-xl font-bold">Movie Finder</h1>
             </div>
