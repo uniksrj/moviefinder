@@ -49,7 +49,7 @@ const getRatingColor = (rating: string | number) => {
       </p>
       <div className="mt-3 flex flex-wrap gap-2">
         <span className={`px-2 py-1 text-xs rounded-full ${getRatingColor(data.vote_average)}`}>
-          Rating: {data.vote_average.toFixed(1)}
+          Rating: {typeof data.vote_average  === "number" ? data.vote_average.toFixed(1): "N/A"}
         </span>
       </div>
     </div>

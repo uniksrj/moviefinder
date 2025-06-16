@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
 import AuthModal from "../components/auth_modal/AuthModal";
-import { getRequestToken } from "../lib/tmdb";
+import LoginButton from "../components/loginButton/LoginButton";
 
 const Header = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -27,17 +27,7 @@ const Header = () => {
     localStorage.removeItem("tmdb_user");
     window.location.href = "/";
   };
-  const redirectUrl =
-    import.meta.env.REACT_APP_TMDB_REDIRECT_URL || `${window.location.origin}/auth/callback`;
-  const redirectToTMDBLogin = async () => {
-    const token = await getRequestToken();
-     const requestToken = token.request_token;
-    window.location.href = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=${encodeURIComponent(
-      redirectUrl
-    )}`;
-  };
-
-
+ 
   return (
     <header className="bg-white shadow-md">
       <div className="flex justify-end items-center bg-gray-100 px-4 py-2 space-x-4 text-sm">
@@ -50,12 +40,8 @@ const Header = () => {
           </div>
         ) : (
           <>
-            <button
-              onClick={redirectToTMDBLogin}
-              className="text-gray-600 hover:text-blue-600 font-medium  cursor-pointer transition duration-200"
-            >
-              Login with TMDB
-            </button>
+            <LoginButton /> 
+            {/* Disabled buttons for login and sign up */}
             <button
               className="text-gray-600 hover:text-white font-medium transition duration-200  px-3 py-1 rounded  cursor-not-allowed hover:bg-gray-300"
               onClick={() => {

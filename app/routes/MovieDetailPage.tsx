@@ -53,7 +53,7 @@ const MovieDetailPage = () => {
   const trailerUrl = trailer ? `https://www.youtube.com/watch?v=${trailer.key}` : null;
 
   return (
-    <div className="bg-black text-white min-h-screen relative">
+    <div className="bg-black text-white min-h-screen relative">      
       <div className="max-w-7xl mx-auto px-4">
         <div
           className="absolute inset-0 bg-cover bg-center blur-md opacity-20"
