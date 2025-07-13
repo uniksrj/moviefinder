@@ -17,13 +17,20 @@ export default function AuthCallback() {
 
             try {
                 const sessionRes = await createSession(token);
-                if (sessionRes.success && sessionRes.session_id) {
-                    localStorage.setItem("tmdb_session", sessionRes.session_id);
-                    console.log("✅ Session ID saved:", sessionRes.session_id);
-                } else {
+                if (!sessionRes.success || !sessionRes.session_id) {
                     console.error("❌ Failed to create session:", sessionRes);
+                    alert("Session creation failed. Please try logging in again.");
+                    return navigate("/");
                 }
+                localStorage.setItem("tmdb_session", sessionRes.session_id);
+                console.log("✅ Session ID saved:", sessionRes.session_id);
+
                 const user = await getAccount(sessionRes.session_id);
+                if (!user || !user.username) {
+                    console.error("❌ Failed to fetch user:", user);
+                    alert("User info could not be fetched.");
+                    return navigate("/");
+                }
                 localStorage.setItem("tmdb_user", JSON.stringify(user));
 
                 navigate("/");
