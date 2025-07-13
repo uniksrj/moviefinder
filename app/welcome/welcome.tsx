@@ -133,7 +133,6 @@ export function Welcome() {
     }
   };
 
-
   useEffect(() => {
     if (searchMode) return;
     if (filter.type === undefined || filter.type === null) return;
@@ -311,7 +310,7 @@ export function Welcome() {
               )}
               {movies.map((movie) => (
                 <li key={movie.id}>
-                  <Card data={{ ...movie, id: movie.id.toString(), media_type: filter.type || "movie" }} />
+                  <Card data={{ ...movie, id: movie.id.toString()}} />
                 </li>
               ))}
             </ul>

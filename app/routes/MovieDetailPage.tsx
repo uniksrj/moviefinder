@@ -73,6 +73,8 @@ const MovieDetailPage = () => {
             trailerUrl={trailerUrl}
             crew={credits.crew}
             countries={countries}
+            id={id ?? ""}
+            mediaType={type ?? "movie"}
           />
           {/* <WatchButtons trailerUrl={trailerUrl} />  */}
 

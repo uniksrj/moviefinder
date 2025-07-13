@@ -16,10 +16,12 @@ interface HeroProps {
   trailerUrl: string | null;
   crew: { name: string; job: string }[];
   countries: { timezones: string[]; cca2: string; name: string }[];
+  id: number | string;
+  mediaType: string;
 }
 
 const HeroSection: React.FC<HeroProps> = ({
-  title, posterPath, backdropPath, releaseDate, rating, genres, runtime, overview, trailerUrl, crew, countries
+  title, posterPath, backdropPath, releaseDate, rating, genres, runtime, overview, trailerUrl, crew, countries, id, mediaType
 }) => {
   const [crewData, setCrewData] = React.useState<{ name: string; job: string }[]>([]);
   const [release_date, setReleaseDate] = React.useState<string>('');
@@ -130,7 +132,7 @@ const HeroSection: React.FC<HeroProps> = ({
             {runtime && <span>{formatTime(runtime)}</span>}
           </p>
           <RatingSection rating={rating} />
-          <WatchButtons trailerUrl={trailerUrl} />
+          <WatchButtons trailerUrl={trailerUrl} id={id ?? ""} mediaType={mediaType} />
           <h3 className="text-xl my-0 font-bold">Overview</h3>
           <hr className="my-2" />
           <p>{overview}</p>

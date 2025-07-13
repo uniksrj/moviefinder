@@ -14,6 +14,9 @@ export const getRequestToken = async () => {
 };
 
 export const createSession = async (request_token: string) => {
+  if (!request_token) {
+    throw new Error("No request token provided");
+  }
   const res = await fetch(
     `https://api.themoviedb.org/3/authentication/session/new`,
     {
@@ -26,7 +29,14 @@ export const createSession = async (request_token: string) => {
       body: JSON.stringify({ request_token }),
     }
   );
-  return res.json();
+ const data = await res.json();
+
+  if (!res.ok || data.success === false) {
+    console.error("❌ Failed to create session", data);
+    throw new Error(data.status_message || "Session creation failed");
+  }
+
+  return data; 
 };
 
 export const getAccount = async (session_id: string) => {
