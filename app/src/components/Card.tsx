@@ -37,7 +37,7 @@ const getRatingColor = (rating: string | number) => {
   return (
     <div
       onClick={handleClick}
-      className="relative rounded-xl transition-transform duration-300 hover:scale-105 cursor-pointer"
+      className="relative rounded-xl transition-transform duration-300 hover:scale-105 cursor-pointer col-span-full h-full w-full border-l-4 border-red-400 shadow-[0_0_10px_2px_rgba(239,68,68,0.4)]"
     >
       {/* Card Content */}
       <div className="h-full flex flex-col rounded-xl overflow-hidden backdrop-blur-sm bg-white transition-all duration-300 border border-gray-100 hover:backdrop-blur-lg hover:shadow-[0_0_20px_rgb(255,0,255),0_0_10px_rgb(0,255,255),0_0_15px_rgb(0,255,0)]">

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { GoChecklist } from "react-icons/go";
 import { FaPlay } from "react-icons/fa";
-import { isFavorite } from "../IsFavourite";
+import { redirectToTMDBLogin } from "~/src/lib/Tmdblogin";
 
 export const updateUserMediaStatus = async (
   action: "favorite" | "watchlist",
@@ -101,12 +101,21 @@ const WatchButtons: React.FC<WatchButtonsProps> = ({ trailerUrl, id, mediaType }
     fetchStatus();
   }, [accountId, sessionId, id, mediaType]);
 
+  const onlyIfLogin = () => {
+    redirectToTMDBLogin();
+    return;
+  };
+
   const toggleMediaStatus = async (
     action: "favorite" | "watchlist",
     currentValue: boolean,
     setState: React.Dispatch<React.SetStateAction<boolean | null>>
   ) => {
-    if (!accountId || !sessionId) return;
+    if (!accountId || !sessionId) {
+      alert("You need to be logged in to perform this action.");
+      onlyIfLogin();
+      return;
+    }
 
     const res = await updateUserMediaStatus(
       action,
