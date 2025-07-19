@@ -60,6 +60,7 @@ export function Welcome() {
   });
 
   async function fetchMovies(type: string) {
+
     const rawSort = filter.sortBy;
     let mappedSort = "";
 
@@ -80,7 +81,6 @@ export function Welcome() {
         }[rawSort] || "";
       }
     }
-
     setLoading(true);
     try {
       const queryParams = new URLSearchParams({
@@ -94,14 +94,19 @@ export function Welcome() {
             ? { primary_release_year: filter.release_date }
             : { first_air_date_year: filter.release_date })),
       });
+      console.log(`Fetching movies with params: ${queryParams.toString()}`);
 
       const res = await axios.get(
         `https://api.themoviedb.org/3/${type}?${queryParams.toString()}`,
         options
       );
-      // console.log(res);
+      const $type = type.split("/")[1];
+      const resultsWithMediaType = (["movie", "tv"].includes($type))
+        ? res.data.results.map((item: Movie) => ({ ...item, media_type: $type }))
+        : res.data.results;
+      console.log(res);
       setMovies((prev) => {
-        const combined = [...prev, ...res.data.results];
+        const combined = [...prev, ...resultsWithMediaType];
         const unique = Array.from(new Map(combined.map(m => [m.id, m])).values());
         return unique;
       });
@@ -112,6 +117,8 @@ export function Welcome() {
     } finally {
       setLoading(false);
     }
+    console.log("Movies fetched:", movies);
+
   }
 
   const fetchSearchResults = async (query: string) => {
@@ -192,13 +199,12 @@ export function Welcome() {
   }, [searchQuery]);
 
   useEffect(() => {
-    
+
     if (!debouncedTerm) {
       setSearchMode(false);
       return;
     }
     setSearchMode(true);
-
     const fetchSearchResults = async () => {
       try {
         const res = await axios.get(`https://api.themoviedb.org/3/search/multi`, {
@@ -240,7 +246,6 @@ export function Welcome() {
         console.error("Search error:", err);
       }
     };
-
     fetchSearchResults();
   }, [debouncedTerm]);
 
@@ -261,6 +266,7 @@ export function Welcome() {
     }
   }
 
+  console.log("Movies:", movies);
 
   return (
     <div className="bg-gray-800 min-h-screen">
@@ -310,7 +316,7 @@ export function Welcome() {
               )}
               {movies.map((movie) => (
                 <li key={movie.id}>
-                  <Card data={{ ...movie, id: movie.id.toString()}} />
+                  <Card data={{ ...movie, id: movie.id.toString() }} />
                 </li>
               ))}
             </ul>
